@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Subjects
+Route::get('/subjects', 'SubjectController@index');
+Route::get('/subjects/{id}', 'SubjectController@show');
+Route::post('/subject/create', 'SubjectController@store');
+Route::put('/subject/update/{id}', 'SubjectController@update');
+Route::delete('/subject/delete/{id}', 'SubjectController@delete');
