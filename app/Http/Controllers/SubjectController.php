@@ -44,12 +44,12 @@ class SubjectController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name' => 'required|min:2|max:255',
+                'nombre' => 'required|min:2|max:255',
             ],
             [
-                'name.required' => 'Debes ingresar un subject',
-                'name.min' => 'Debe ser de largo mínimo :min',
-                'name.max' => 'Debe ser de largo máximo :max',
+                'nombre.required' => 'Debes ingresar un subject',
+                'nombre.min' => 'Debe ser de largo mínimo :min',
+                'nombre.max' => 'Debe ser de largo máximo :max',
             ]
         );
         //Caso falla la validación
@@ -104,14 +104,14 @@ class SubjectController extends Controller
     {
         //
         $validator = Validator::make(
-            $request->only(['name']),
+            $request->only(['nombre']),
             [
-                'name' => 'required|min:2|max:255',
+                'nombre' => 'required|min:2|max:255',
             ],
             [
-                'name.required' => 'Debes ingresar un subject',
-                'name.min' => 'Debe ser de largo mínimo :min',
-                'name.max' => 'Debe ser de largo máximo :max',
+                'nombre.required' => 'Debes ingresar un subject',
+                'nombre.min' => 'Debe ser de largo mínimo :min',
+                'nombre.max' => 'Debe ser de largo máximo :max',
             ]
         );
         //Caso falla la validación
