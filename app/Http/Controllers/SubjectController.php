@@ -142,7 +142,7 @@ class SubjectController extends Controller
         //
         $subject = Subject::find($id);
         if(empty($subject)){
-            return response()->json([],204);
+            return response()->json([], 204);
         }
         $subject->delete();
         return response()->json([
