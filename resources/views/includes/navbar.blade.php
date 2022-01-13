@@ -14,7 +14,7 @@
                         <a class="nav-link" href="/ingresarcurso">Ingresar curso</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Editar curso</a>
+                        <a class="nav-link" href="/editarcurso">Editar curso</a>
                     </li>
                 </ul>
                 <form class="d-flex">

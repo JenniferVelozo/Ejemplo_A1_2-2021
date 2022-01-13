@@ -17,6 +17,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
+                    <h4 class="mb-3">Ingresa un nuevo curso</h4>
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -26,28 +27,23 @@
                         </ul>
                     </div>
                     @endif
-                    <h4 class="mb-3">Ingresa un nuevo curso</h4>
-                    <form method="POST" action="/subject/create">
+
+                    <form method="POST" action="/subject/update">
+                        @method('PUT')
                         <div class="mb-3">
+                            <select name="idSubject" id="idSubject" class="form-select" aria-label="Default select example">
+                                <option selected>Selecciona un curso a editar</option>
+                                @foreach($subjects as $s)
+                                    <option value="{{$s->id}}">{{$s->nombre}}</option>
+                                @endforeach
+                            </select>
                             <label for="nombrecurso" class="form-label">Nombre del curso</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" 
-                                aria-describedby="emailHelp">
+                            <input type="text" id="nombre" name="nombre"
+                                class="form-control @error('nombre') is-invalid @enderror" aria-describedby="emailHelp">
                             @error('nombre')
-                                <div class="alert-danger">{{ $message }}</div>
+                            <div class="alert-danger">{{ $message }}</div>
                             @enderror
                             <div id="ayudacurso" class="form-text">Utiliza nombres representativos.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="urlcurso" class="form-label">URL de la imagen del curso</label>
-                            <input type="text" class="form-control" id="urlcurso">
-                        </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion">
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="terminos">
-                            <label class="form-check-label" for="terminos">Acepto términos y condiciones</label>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                     </form>

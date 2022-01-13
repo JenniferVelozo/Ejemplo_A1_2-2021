@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,11 +17,26 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::all();
+        $courses = Course::all();
         if($subjects->isEmpty()){
             //No hay cursos
             return response()->json([], 204);
         }
-        return response($subjects, 200);
+        return view('home', [
+            'subjects' => $subjects,
+            'courses' => $courses,
+        ]);
+    }
+    public function editarCurso()
+    {
+        $subjects = Subject::all();
+        if($subjects->isEmpty()){
+            //No hay cursos
+            return response()->json([], 204);
+        }
+        return view('editarcurso', [
+            'subjects' => $subjects,
+        ]);
     }
 
     /**
@@ -53,17 +69,17 @@ class SubjectController extends Controller
             ]
         );
         //Caso falla la validación
+        $validator->validate();
+        /*
         if($validator->fails()){
             return response($validator->errors(), 400);
         }
+        */
         $newSubject = new Subject();
         $newSubject->nombre = $request->nombre;
         $newSubject->save();
 
-        return response()->json([
-            'msg' => 'New subject has been created',
-            'id' => $newSubject->id,
-        ], 201);
+        return redirect('/');
     }
 
     /**
@@ -100,35 +116,34 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
         $validator = Validator::make(
-            $request->only(['nombre']),
+            $request->all(),
             [
-                'nombre' => 'required|min:2|max:255',
+                'nombre' => 'required|min:2|max:255|exists:App\Models\Subject,nombre',
+                'idSubject' => 'required',
             ],
             [
                 'nombre.required' => 'Debes ingresar un subject',
                 'nombre.min' => 'Debe ser de largo mínimo :min',
                 'nombre.max' => 'Debe ser de largo máximo :max',
+                'nombre.exists' => 'No debe existir previamente el nombre',
+                'idSubject.required' => 'Debes ingresar un curso para editar'
+                
             ]
         );
         //Caso falla la validación
-        if($validator->fails()){
-            return response($validator->errors());
-        }
-        $subject = Subject::find($id);
+        $validator->validate();
+        $subject = Subject::find($request->idSubject);
         if(empty($subject)){
             return response()->json([], 204);
         }
 
         $subject->nombre = $request->nombre;
         $subject->save();
-        return response()->json([
-            'msg' => 'Subject has been edited',
-            'id' => $subject->id,
-        ], 200);
+        return redirect('/');
     }
 
     /**
